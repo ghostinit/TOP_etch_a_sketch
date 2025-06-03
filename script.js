@@ -1,7 +1,3 @@
-
-
-const updateBackgroundButton = document.querySelector("#updateBackgroundButton");
-
 const relativeContainer = document.querySelector("#relativeContainer");
 const gridContainer = document.querySelector("#gridContainer");
 const backgroundContainer = document.querySelector("#backgroundContainer");
@@ -11,9 +7,8 @@ const containerSize = "500px";
 let gridCount = 100;
 let penColor = "#39FF14";
 let gridBackgroundColor = "#000000";
-
 let randomColor = false;
-let doGradualFill = false;
+let multiPassMode = false;
 let gridVisible = false;
 let gridColor = "black";
 let hoverMode = false;
@@ -27,6 +22,7 @@ gridContainer.style.cssText = `display: flex; flex-direction: column; \
                                 position: absolute; top: 0; left: 0; width: 100%; height: 100%; \
                                 cursor: url('images/paintbrush.png'), auto; z-index: 2;`;
 
+// resizeGrid both initially creates, resizes and clears the grid
 function resizeGrid() {
     // Set GridContainer Attributes
     gridContainer.innerHTML = '';
@@ -38,17 +34,13 @@ function resizeGrid() {
         for (let cols = 0; cols < gridCount; cols++) {
             let newCell = document.createElement("div");
             newCell.id = "cell";
-            // For now we'll create the div with a border we can see
-            //newCell.style.cssText = "flex: 1; user-select: none;";
-            newCell.style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+            newCell._opacityLevel = 0;
+            newCell.style.backgroundColor = "#00000000";
             if (gridVisible) {
                 newCell.style.cssText = `flex: 1; user-select: none; border: ${gridColor} 1px solid`;
             } else {
                 newCell.style.cssText = "flex: 1; user-select: none;";
             }
-
-
-            // Add cell to row
             newRow.appendChild(newCell);
         }
         gridContainer.appendChild(newRow);
@@ -56,21 +48,38 @@ function resizeGrid() {
 }
 
 
-
-
+// To increase performance we are using 1 event listener for
+// all cells.
+// This is the event listener that populates the divs
+// according the UI settings
 gridContainer.addEventListener("mousemove", function (event) {
+
     if ((event.buttons === 1 || hoverMode) && !eraserMode) {
-        let usePenColor = penColor;
+        console.log(event.target.style.backgroundColor)
+
+        // 'finalPenColor' is the name of the variable that will actually
+        // get pushed to the div background
+        let finalPenColor = penColor;
         if (randomColor) {
             const red = Math.random() * 255;
             const green = Math.random() * 255;
             const blue = Math.random() * 255;
-            usePenColor = `rgb(${red}, ${green}, ${blue})`;
+            finalPenColor = `rgb(${red}, ${green}, ${blue})`;
         }
-        event.target.style.backgroundColor = usePenColor;
+
+        if (multiPassMode) {
+            if (event.target._opacityLevel < 1) {
+                event.target._opacityLevel += 0.1;
+            }
+        } else {
+            event.target._opacityLevel = 1;
+        }
+        event.target.style.opacity = event.target._opacityLevel.toFixed(1);
+        event.target.style.backgroundColor = finalPenColor;
     } else if ((event.buttons === 1 || hoverMode) && eraserMode) {
         event.target.style.backgroundColor = "#FFFFFF00";
     }
+
 });
 
 // Prevent context menu when right clicking on grid container
@@ -78,7 +87,25 @@ gridContainer.addEventListener("contextmenu", function (event) {
     event.preventDefault();
 });
 
+// Everything from here is eventListeners for the
+// various UI elements.  Nothing super interesting.
 
+
+// ================================== MULTI PASS MODE ===============
+
+const multiPassOnButton = document.querySelector("#multiPassOnButton");
+multiPassOnButton.addEventListener("click", () => {
+    multiPassMode = true;
+    multiPassOnButton.classList.add("pressed");
+    multiPassOffButton.classList.remove("pressed");
+});
+
+const multiPassOffButton = document.querySelector("#multiPassOffButton");
+multiPassOffButton.addEventListener("click", () => {
+    multiPassMode = false;
+    multiPassOnButton.classList.remove("pressed");
+    multiPassOffButton.classList.add("pressed");
+});
 // ================================== HOVER MODE CONTROL ============
 
 const hoverOnButton = document.querySelector("#hoverOnButton");
@@ -165,6 +192,9 @@ resizeGridButton.addEventListener("mouseup", () => {
 });
 
 // ================================== GRID LINE CONTROL ====================
+
+// In order to update the borders of each cell we need to query them all
+// I'm still new at this and there might be a better way
 function updateGridLineColor() {
     const cells = document.querySelectorAll("#cell");
     const cellArr = Array.from(cells);

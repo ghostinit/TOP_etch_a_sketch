@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="output.css">
+    <link rel="icon" href="favicon.png" type="image/png">
     <title>Sketch-O-Matic</title>
 </head>
 
@@ -13,10 +14,10 @@
 
     <h1 class="text-center text-6xl mt-5 neon">Sketch-O-Matic</h1>
 
-
-
     <div id="masterContainer" class="flex flex-col items-center mt-10">
         <div class="flex gap-10">
+
+            <!-- GRID LINE TOGGLE CONTROL -->
             <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40">
                 <h3 class="text-lg text-center">Grid Lines</h3>
                 <div class="flex justify-center">
@@ -24,6 +25,8 @@
                     <button id="gridLinesOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
                 </div>
             </div>
+
+            <!-- GRID LINE COLOR CONTROL -->
             <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40">
                 <h3 class="text-lg text-center">Grid Color</h3>
                 <div class="flex justify-center">
@@ -32,8 +35,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- CENTER: INCLUDES CONTROLS AND GRID -->
         <div class="flex gap-10">
+
+            <!-- LEFT CONTROL AREA -->
             <div class="w-40 mt-10">
+
+                <!-- HOVER MODE TOGGLE -->
                 <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40">
                     <h3 class="text-lg text-center">Hover Mode</h3>
                     <div class="flex justify-center">
@@ -41,6 +50,8 @@
                         <button id="hoverOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
                     </div>
                 </div>
+
+                <!-- ERASE MODE TOGGLE -->
                 <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 mt-5">
                     <h3 class="text-lg text-center">Eraser</h3>
                     <div class="flex justify-center">
@@ -48,16 +59,33 @@
                         <button id="eraserOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
                     </div>
                 </div>
+
+                <!-- MULTI PASS MODE TOGGLE -->
+                <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 mt-5">
+                    <h3 class="text-lg text-center">Multi Pass</h3>
+                    <div class="flex justify-center">
+                        <button id="multiPassOnButton" class="toggle-button-lg toggle-left">ON</button>
+                        <button id="multiPassOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
+                    </div>
+                </div>
             </div>
+
+            <!-- COLORING GRID -->
             <div id="relativeContainer" class="neon-border mt-10">
                 <div id="gridContainer"></div>
                 <div id="backgroundContainer"></div>
             </div>
+
+            <!-- RIGHT CONTROL AREA -->
             <div class="w-40 mt-10">
+
+                <!-- BRUSH COLOR PICKER -->
                 <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 items-center">
                     <h3 class="text-lg text-center">Brush Color</h3>
                     <input class="w-30 h-12" type="color" id="penColorPicker" name="colorPicker">
                 </div>
+
+                <!-- RAINBOW MODE TOGGLE -->
                 <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 mt-5">
                     <h3 class="text-lg text-center">Rainbow Mode</h3>
                     <div class="flex justify-center">
@@ -65,26 +93,30 @@
                         <button id="rainbowOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
                     </div>
                 </div>
+
+                <!-- BACKGROUND COLOR PICKER -->
                 <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 items-center mt-5">
                     <h3 class="text-lg text-center">Background Color</h3>
                     <input class="w-30 h-12" type="color" id="bgColorPicker" name="colorPicker">
                 </div>
             </div>
         </div>
+
+        <!-- GRID SIZE PICKER AGREA -->
         <div class="flex flex-col items-center space-x-4 mt-5">
             <label id="gridSizeLabel" for="gridSizeSlider" class="text-green-400">Grid Size: 100</label>
             <input type="range" id="gridSizeSlider" min="10" max="100" value="100" class="accent-green-400 w-50">
             <button id="resizeGridButton" class="rounded-full toggle-button-md">Apply</button>
+            <p>PRESS APPLY TO CLEAR</p>
 
         </div>
     </div>
 
 
-    <div class="flex-grow mt-auto">
-
-    </div>
-    <div class="text-center">
-        My Footer
+    <!-- FOOTER AREA -->
+    <div class="flex-grow mt-auto"></div>
+    <div class="flex gap-10 justify-center">
+        <div>Adam Lyon 2025</div>
     </div>
 </body>
 
