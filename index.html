@@ -1,25 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="output.css">
+    <title>Sketch-O-Matic</title>
 </head>
 
-<body>
-    <button id="resizeGridButton">RESIZE GRID</button>
-    <button id="updateBackgroundButton">UPDATE BACKGROUND</button>
-    <div id="relativeContainer">
-        <div id="gridContainer">
+<body class="bg-white dark:bg-gray-900 text-black dark:text-white">
 
+    <h1 class="text-center text-6xl mt-5 neon">Sketch-O-Matic</h1>
+
+
+
+    <div id="masterContainer" class="flex flex-col items-center mt-20">
+        <div class="flex gap-10">
+            <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 ">
+                <h3 class="text-lg text-center">Grid Lines</h3>
+                <div class="flex">
+                    <button id="gridLinesOnButton"
+                        class="rounded-l-full rounded-r-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22]">ON</button>
+                    <button id="gridLinesOffButton"
+                        class="pressed rounded-r-full rounded-l-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22]">OFF</button>
+                </div>
+            </div>
+            <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 ">
+                <h3 class="text-lg text-center">Grid Color</h3>
+                <div class="flex">
+                    <button id="gridLinesBlackButton"
+                        class="pressed rounded-l-full rounded-r-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22] bg-black"></button>
+                    <button id="gridLinesWhiteButton"
+                        class="rounded-r-full rounded-l-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22] bg-white"></button>
+                </div>
+            </div>
         </div>
-        <div id="backgroundContainer">
+        <div id="relativeContainer" class="neon-border mt-10">
+            <div id="gridContainer">
 
+            </div>
+            <div id="backgroundContainer">
+
+            </div>
         </div>
     </div>
+
+    <button id="resizeGridButton">RESIZE GRID</button>
+    <button id="updateBackgroundButton">UPDATE BACKGROUND</button>
 
 </body>
 

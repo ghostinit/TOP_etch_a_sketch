@@ -13,7 +13,9 @@ let paintColor = "#338833";
 let gridBackgroundColor = "rgb(255, 255, 255)";
 
 let randomColor = false;
-let doGradualFill = true;
+let doGradualFill = false;
+let gridVisible = false;
+let gridColor = "black";
 
 
 relativeContainer.style.cssText = `position: relative; width: ${containerSize}; height: ${containerSize};`;
@@ -34,9 +36,15 @@ function resizeGrid() {
             let newCell = document.createElement("div");
             newCell.id = "cell";
             // For now we'll create the div with a border we can see
-            newCell.style.cssText = "flex: 1; user-select: none;";
+            //newCell.style.cssText = "flex: 1; user-select: none;";
             newCell.style.backgroundColor = "rgba(0, 0, 0, 0.0)";
-            //newCell.style.cssText = "border: black 1px solid";
+            if (gridVisible) {
+                newCell.style.cssText = `flex: 1; user-select: none; border: ${gridColor} 1px solid`;
+            } else {
+                newCell.style.cssText = "flex: 1; user-select: none;";
+            }
+
+
             // Add cell to row
             newRow.appendChild(newCell);
         }
@@ -75,6 +83,8 @@ function getAlphaValue(colorStr) {
     }
 }
 
+
+
 function updateBackground(newColor) {
     // console.log("Updating Background");
     // const cells = document.querySelectorAll("#cell");
@@ -103,4 +113,79 @@ resizeGrid();
 // gridContainer.addEventListener("mouseup", () => {
 //     mouseDown = false;
 // });
+
+// const gridButtons = document.querySelectorAll('.grid-toggle-btn');
+
+// buttons.forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         buttons.forEach(b => b.classList.remove('pressed'));
+//         btn.classList.add('pressed');
+//     });
+// });
+
+function updateGridLineColor() {
+    const cells = document.querySelectorAll("#cell");
+    const cellArr = Array.from(cells);
+    for (let cell of cellArr) {
+        const cellBackground = cell.style.backgroundColor;
+        cell.style.cssText = "";
+        if (gridVisible) {
+            cell.style.cssText = `flex: 1; user-select: none; border: ${gridColor} 1px solid`;
+        } else {
+            cell.style.cssText = "flex: 1; user-select: none;";
+        }
+        cell.style.backgroundColor = cellBackground;
+    }
+}
+
+function toggleGridLines(newState) {
+    if (newState) {
+        gridOnButton.classList.add('pressed');
+        gridOffButton.classList.remove('pressed');
+        gridVisible = true;
+    } else {
+        gridOnButton.classList.remove('pressed');
+        gridOffButton.classList.add('pressed');
+        gridVisible = false;
+    }
+    updateGridLineColor();
+}
+
+const gridOnButton = document.querySelector("#gridLinesOnButton");
+gridOnButton.addEventListener("click", () => {
+    if (!gridVisible) {
+        toggleGridLines(true);
+    }
+});
+
+const gridOffButton = document.querySelector("#gridLinesOffButton");
+gridOffButton.addEventListener("click", () => {
+    if (gridVisible) {
+        toggleGridLines(false);
+    }
+});
+
+const gridLineBlackButton = document.querySelector("#gridLinesBlackButton");
+gridLineBlackButton.addEventListener("click", () => {
+    if (gridColor === "white") {
+        gridLineBlackButton.classList.add('pressed');
+        gridLineWhiteButton.classList.remove('pressed');
+        gridColor = "black";
+    }
+    if (gridVisible) {
+        updateGridLineColor();
+    }
+});
+
+const gridLineWhiteButton = document.querySelector("#gridLinesWhiteButton");
+gridLineWhiteButton.addEventListener("click", () => {
+    if (gridColor === "black") {
+        gridLineBlackButton.classList.remove('pressed');
+        gridLineWhiteButton.classList.add('pressed');
+        gridColor = "white";
+    }
+    if (gridVisible) {
+        updateGridLineColor();
+    }
+});
 
