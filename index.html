@@ -9,46 +9,83 @@
     <title>Sketch-O-Matic</title>
 </head>
 
-<body class="bg-white dark:bg-gray-900 text-black dark:text-white">
+<body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen flex flex-col">
 
     <h1 class="text-center text-6xl mt-5 neon">Sketch-O-Matic</h1>
 
 
 
-    <div id="masterContainer" class="flex flex-col items-center mt-20">
+    <div id="masterContainer" class="flex flex-col items-center mt-10">
         <div class="flex gap-10">
-            <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 ">
+            <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40">
                 <h3 class="text-lg text-center">Grid Lines</h3>
-                <div class="flex">
-                    <button id="gridLinesOnButton"
-                        class="rounded-l-full rounded-r-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22]">ON</button>
-                    <button id="gridLinesOffButton"
-                        class="pressed rounded-r-full rounded-l-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22]">OFF</button>
+                <div class="flex justify-center">
+                    <button id="gridLinesOnButton" class="toggle-button-lg toggle-left">ON</button>
+                    <button id="gridLinesOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
                 </div>
             </div>
-            <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 ">
+            <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40">
                 <h3 class="text-lg text-center">Grid Color</h3>
-                <div class="flex">
-                    <button id="gridLinesBlackButton"
-                        class="pressed rounded-l-full rounded-r-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22] bg-black"></button>
-                    <button id="gridLinesWhiteButton"
-                        class="rounded-r-full rounded-l-none border border-gray-300 px-4 py-2 w-17 h-10 hover:shadow-[0_0_10px_#22ee22] bg-white"></button>
+                <div class="flex justify-center">
+                    <button id="gridLinesBlackButton" class="pressed toggle-button-lg toggle-left bg-black"></button>
+                    <button id="gridLinesWhiteButton" class="toggle-button-lg toggle-right bg-white"></button>
                 </div>
             </div>
         </div>
-        <div id="relativeContainer" class="neon-border mt-10">
-            <div id="gridContainer">
-
+        <div class="flex gap-10">
+            <div class="w-40 mt-10">
+                <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40">
+                    <h3 class="text-lg text-center">Hover Mode</h3>
+                    <div class="flex justify-center">
+                        <button id="hoverOnButton" class="toggle-button-lg toggle-left">ON</button>
+                        <button id="hoverOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
+                    </div>
+                </div>
+                <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 mt-5">
+                    <h3 class="text-lg text-center">Eraser</h3>
+                    <div class="flex justify-center">
+                        <button id="eraserOnButton" class="toggle-button-lg toggle-left">ON</button>
+                        <button id="eraserOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
+                    </div>
+                </div>
             </div>
-            <div id="backgroundContainer">
-
+            <div id="relativeContainer" class="neon-border mt-10">
+                <div id="gridContainer"></div>
+                <div id="backgroundContainer"></div>
             </div>
+            <div class="w-40 mt-10">
+                <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 items-center">
+                    <h3 class="text-lg text-center">Brush Color</h3>
+                    <input class="w-30 h-12" type="color" id="penColorPicker" name="colorPicker">
+                </div>
+                <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 mt-5">
+                    <h3 class="text-lg text-center">Rainbow Mode</h3>
+                    <div class="flex justify-center">
+                        <button id="rainbowOnButton" class="toggle-button-lg toggle-left">ON</button>
+                        <button id="rainbowOffButton" class="pressed toggle-button-lg toggle-right">OFF</button>
+                    </div>
+                </div>
+                <div class="flex flex-col border-2 rounded pl-5 pr-5 pt-2 pb-2 w-40 items-center mt-5">
+                    <h3 class="text-lg text-center">Background Color</h3>
+                    <input class="w-30 h-12" type="color" id="bgColorPicker" name="colorPicker">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col items-center space-x-4 mt-5">
+            <label id="gridSizeLabel" for="gridSizeSlider" class="text-green-400">Grid Size: 100</label>
+            <input type="range" id="gridSizeSlider" min="10" max="100" value="100" class="accent-green-400 w-50">
+            <button id="resizeGridButton" class="rounded-full toggle-button-md">Apply</button>
+
         </div>
     </div>
 
-    <button id="resizeGridButton">RESIZE GRID</button>
-    <button id="updateBackgroundButton">UPDATE BACKGROUND</button>
 
+    <div class="flex-grow mt-auto">
+
+    </div>
+    <div class="text-center">
+        My Footer
+    </div>
 </body>
 
 </html>

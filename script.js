@@ -1,5 +1,5 @@
 
-const resizeGridButton = document.querySelector("#resizeGridButton")
+
 const updateBackgroundButton = document.querySelector("#updateBackgroundButton");
 
 const relativeContainer = document.querySelector("#relativeContainer");
@@ -9,15 +9,18 @@ const backgroundContainer = document.querySelector("#backgroundContainer");
 const containerSize = "500px";
 
 let gridCount = 100;
-let paintColor = "#338833";
-let gridBackgroundColor = "rgb(255, 255, 255)";
+let penColor = "#39FF14";
+let gridBackgroundColor = "#000000";
 
 let randomColor = false;
 let doGradualFill = false;
 let gridVisible = false;
 let gridColor = "black";
+let hoverMode = false;
+let eraserMode = false;
 
 
+// CSS settings
 relativeContainer.style.cssText = `position: relative; width: ${containerSize}; height: ${containerSize};`;
 backgroundContainer.style.cssText = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"
 gridContainer.style.cssText = `display: flex; flex-direction: column; \
@@ -53,76 +56,115 @@ function resizeGrid() {
 }
 
 
-resizeGridButton.addEventListener("click", resizeGrid);
+
 
 gridContainer.addEventListener("mousemove", function (event) {
-    if (event.buttons === 1) {
-        let usePaintColor = paintColor;
+    if ((event.buttons === 1 || hoverMode) && !eraserMode) {
+        let usePenColor = penColor;
         if (randomColor) {
             const red = Math.random() * 255;
             const green = Math.random() * 255;
             const blue = Math.random() * 255;
-            usePaintColor = `rgb(${red}, ${green}, ${blue})`;
+            usePenColor = `rgb(${red}, ${green}, ${blue})`;
         }
-        event.target.style.backgroundColor = usePaintColor;
-    } else if (event.buttons === 2) {
-        event.target.style.backgroundColor = gridBackgroundColor;
+        event.target.style.backgroundColor = usePenColor;
+    } else if ((event.buttons === 1 || hoverMode) && eraserMode) {
+        event.target.style.backgroundColor = "#FFFFFF00";
     }
 });
 
+// Prevent context menu when right clicking on grid container
 gridContainer.addEventListener("contextmenu", function (event) {
     event.preventDefault();
 });
 
-function getAlphaValue(colorStr) {
-    if (colorStr.startsWith('rgba') || colorStr.startsWith('hsla')) {
-        const parts = colorStr.match(/[\d.]+/g);  // extracts all numbers including decimals
-        return parseFloat(parts[3]);  // the alpha is the 4th number
-    } else {
-        return 1;  // fully opaque if it's 'rgb()' or a hex color
-    }
-}
 
+// ================================== HOVER MODE CONTROL ============
 
-
-function updateBackground(newColor) {
-    // console.log("Updating Background");
-    // const cells = document.querySelectorAll("#cell");
-    // const cellArr = Array.from(cells);
-    // for (let cell of cellArr) {
-    //     if (cell.style.backgroundColor === gridBackgroundColor) {
-    //         cell.style.backgroundColor = newColor;
-    //     }
-    // }
-    // gridBackgroundColor = newColor;
-    backgroundContainer.style.backgroundColor = newColor;
-}
-updateBackgroundButton.addEventListener("click", () => {
-
-    updateBackground("rgb(0, 255, 0)")
+const hoverOnButton = document.querySelector("#hoverOnButton");
+hoverOnButton.addEventListener("click", () => {
+    hoverMode = true;
+    hoverOnButton.classList.add("pressed");
+    hoverOffButton.classList.remove("pressed");
 });
 
-resizeGrid();
+const hoverOffButton = document.querySelector("#hoverOffButton");
+hoverOffButton.addEventListener("click", () => {
+    hoverMode = false;
+    hoverOnButton.classList.remove("pressed");
+    hoverOffButton.classList.add("pressed");
+});
 
+// ================================== ERASER CONTROL ================
 
+const eraserOnButton = document.querySelector("#eraserOnButton");
+eraserOnButton.addEventListener("click", () => {
+    eraserMode = true;
+    eraserOnButton.classList.add("pressed");
+    eraserOffButton.classList.remove("pressed");
+});
 
-// gridContainer.addEventListener("mousedown", () => {
-//     mouseDown = true;
-// });
+const eraserOffButton = document.querySelector("#eraserOffButton");
+eraserOffButton.addEventListener("click", () => {
+    eraserMode = false;
+    eraserOnButton.classList.remove("pressed");
+    eraserOffButton.classList.add("pressed");
+});
 
-// gridContainer.addEventListener("mouseup", () => {
-//     mouseDown = false;
-// });
+// ================================== COLOR CONTROL =================
 
-// const gridButtons = document.querySelectorAll('.grid-toggle-btn');
+function updateBackground() {
+    backgroundContainer.style.backgroundColor = gridBackgroundColor;
+}
 
-// buttons.forEach(btn => {
-//     btn.addEventListener('click', () => {
-//         buttons.forEach(b => b.classList.remove('pressed'));
-//         btn.classList.add('pressed');
-//     });
-// });
+// PEN COLOR PICKER
+const penColorPicker = document.querySelector("#penColorPicker");
+penColorPicker.addEventListener("input", (event) => {
+    penColor = event.target.value;
+});
 
+// BACKGROUND COLOR PICKER
+const bgColorPicker = document.querySelector("#bgColorPicker");
+bgColorPicker.addEventListener("input", (event) => {
+    gridBackgroundColor = event.target.value;
+    updateBackground();
+});
+
+// RAINBOW MODE CONTROL
+const rainbowOnButton = document.querySelector("#rainbowOnButton");
+rainbowOnButton.addEventListener("click", () => {
+    randomColor = true;
+    rainbowOnButton.classList.add("pressed");
+    rainbowOffButton.classList.remove("pressed");
+});
+
+const rainbowOffButton = document.querySelector("#rainbowOffButton");
+rainbowOffButton.addEventListener("click", () => {
+    randomColor = false;
+    rainbowOnButton.classList.remove("pressed");
+    rainbowOffButton.classList.add("pressed");
+});
+
+// ================================== GRID SIZE CONTROL ====================
+
+const gridSizeSlider = document.querySelector("#gridSizeSlider");
+const gridSizeLabel = document.querySelector("#gridSizeLabel");
+gridSizeSlider.addEventListener("input", (event) => {
+    gridCount = event.target.value;
+    gridSizeLabel.textContent = `Grid Size: ${gridCount}`;
+});
+
+const resizeGridButton = document.querySelector("#resizeGridButton")
+resizeGridButton.addEventListener("click", resizeGrid);
+resizeGridButton.addEventListener("mousedown", () => {
+    resizeGridButton.classList.add('pressed');
+});
+
+resizeGridButton.addEventListener("mouseup", () => {
+    resizeGridButton.classList.remove('pressed');
+});
+
+// ================================== GRID LINE CONTROL ====================
 function updateGridLineColor() {
     const cells = document.querySelectorAll("#cell");
     const cellArr = Array.from(cells);
@@ -188,4 +230,12 @@ gridLineWhiteButton.addEventListener("click", () => {
         updateGridLineColor();
     }
 });
+
+
+// =================== INITIALIZE
+
+// Build grid on initial load with defaults
+resizeGrid();
+penColorPicker.value = penColor;
+bgColorPicker.value = gridBackgroundColor;
 

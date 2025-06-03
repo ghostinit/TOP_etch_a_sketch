@@ -24,3 +24,19 @@
     box-shadow: inset 0 0 10px #22ee3d;
     transform: translateY(2px);
 }
+
+.toggle-button-lg {
+    @apply border border-gray-300 px-2 py-1 w-14 h-8 hover:shadow-[0_0_10px_#22ee22]
+}
+
+.toggle-button-md {
+    @apply border border-gray-300 px-3 py-2 mt-2 hover:shadow-[0_0_10px_#22ee22]
+}
+
+.toggle-left {
+    @apply rounded-l-full rounded-r-none
+}
+
+.toggle-right {
+    @apply rounded-r-full rounded-l-none
+}
