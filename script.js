@@ -4,6 +4,8 @@ const backgroundContainer = document.querySelector("#backgroundContainer");
 
 const containerSize = "500px";
 
+const titleText = document.querySelector("#titleText");
+
 let gridCount = 100;
 let penColor = "#39FF14";
 let gridBackgroundColor = "#000000";
@@ -55,8 +57,6 @@ function resizeGrid() {
 gridContainer.addEventListener("mousemove", function (event) {
 
     if ((event.buttons === 1 || hoverMode) && !eraserMode) {
-        console.log(event.target.style.backgroundColor)
-
         // 'finalPenColor' is the name of the variable that will actually
         // get pushed to the div background
         let finalPenColor = penColor;
@@ -148,6 +148,29 @@ function updateBackground() {
 const penColorPicker = document.querySelector("#penColorPicker");
 penColorPicker.addEventListener("input", (event) => {
     penColor = event.target.value;
+
+    relativeContainer.classList.remove("neon-border");
+    //relativeContainer.style.cssText = "";
+    relativeContainer.style.cssText = `position: relative; 
+                                        width: ${containerSize}; 
+                                        height: ${containerSize};
+                                        border: ${penColor};
+                                        box-shadow:
+                                            0 0 5px ${penColor},
+                                            0 0 10px ${penColor},
+                                            0 0 20px ${penColor},
+                                            0 0 40px ${penColor};`;
+
+    //titleText.style.cssText = "";
+    titleText.classList.remove("neon");
+    titleText.style.cssText = `
+        font-family: 'Arial', sans-serif; /* fallback font */
+        color: ${penColor};
+        text-shadow:
+            0 0 5px ${penColor},
+            0 0 10px ${penColor},
+            0 0 20px ${penColor},
+            0 0 40px ${penColor};`;
 });
 
 // BACKGROUND COLOR PICKER

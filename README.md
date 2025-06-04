@@ -22,14 +22,14 @@ From The Odin Project - Fundamentals, this is a simple etch-a-sketch style appli
 
 ## How to Run the Project
 Save the following files in a directory:
-index.html
-output.css
-script.js
-images/paintbrush.png
+- index.html
+- output.css
+- script.js
+- images/paintbrush.png
 
 Open index.html in any modern web browser to start creating art!
 
 ## Technologies Used
-HTML: For structuring the user interface.
-TailwindCSS-CLI / CSS: For styling the user interface.
-JavaScript: For implementing functionality and interactivity.
+- HTML: For structuring the user interface.
+- TailwindCSS-CLI / CSS: For styling the user interface.
+- JavaScript: For implementing functionality and interactivity.
